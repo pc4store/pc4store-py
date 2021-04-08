@@ -1,0 +1,2 @@
+HOST = 'https://api.pc4.store/v1'
+PUBLIC_KEY = '69f72437e2e359a3e5c29fe9a7e0d509345cc57b7bfca0b470598d679a349806'
