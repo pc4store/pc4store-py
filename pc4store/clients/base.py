@@ -36,7 +36,9 @@ class BaseClient:
         else:
             return CreateOrderError(error=data.get('error'))
 
-    def is_signature_correct(self, json_body: dict, signature: str) -> bool:
+    def is_signature_correct(self, json_body: dict, headers: dict) -> bool:
+        signature = headers.get('SIGNATURE')
+        assert signature is not None
         str_body = json.dumps(json_body, separators=(',', ':'))
         hashlib.sha256(str_body.encode()).hexdigest()
         try:
