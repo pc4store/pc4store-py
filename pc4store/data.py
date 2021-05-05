@@ -18,7 +18,7 @@ class CreateOrderInput:
 
     @classmethod
     def from_dict(cls, input_: dict):
-        expected_fields = fields(cls).items()
+        expected_fields = cls.__dataclass_fields__.items()
         required_fields = [field for field, type_ in expected_fields if
                            type_.default == dataclasses.MISSING]
         for field in required_fields:
