@@ -12,7 +12,7 @@ from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
 
 class BaseClient:
     CREATE_ORDER = f'{config.HOST}/create'
-    GET_ORDER = f'{config.HOST}/order'
+    GET_ORDER = f'{config.HOST}/order_info'
 
     def __init__(self, store_id: str, store_key: str):
         self.store_id = store_id
@@ -26,13 +26,15 @@ class BaseClient:
         assert isinstance(params, (CreateOrderInput, dict))
         if isinstance(params, dict):
             return CreateOrderInput.from_dict(params)
+        else:
+            return params
 
     @classmethod
     def _get_formatted_create_res(
             cls, data: dict
     ) -> Union[CreateOrderSuccess, CreateOrderError]:
         if data['status'] == 'OK':
-            return CreateOrderSuccess.from_dict(**data)
+            return CreateOrderSuccess.from_dict(data)
         else:
             return CreateOrderError(error=data.get('error'))
 
