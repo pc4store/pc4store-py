@@ -42,10 +42,10 @@ class BaseClient:
         signature = headers.get('SIGNATURE')
         assert signature is not None
         str_body = json.dumps(json_body, separators=(',', ':'))
-        hashlib.sha256(str_body.encode()).hexdigest()
+        hash_body = hashlib.sha256(str_body.encode()).hexdigest()
         try:
             self.public_key.verify(bytes(bytearray.fromhex(signature)),
-                                   bytes(bytearray(str_body)))
+                                   bytes(bytearray.fromhex(hash_body)))
         except Exception:
             return False
         return True
