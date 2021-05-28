@@ -4,7 +4,7 @@ SDK for work with PC4Store API
 
 ## Installation
 
-`pip intall pc4store` requires Python 3.6 or higher
+`pip install pc4store` requires Python 3.6 or higher
 
 ## Examples
 
