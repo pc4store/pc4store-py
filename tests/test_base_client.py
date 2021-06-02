@@ -9,7 +9,7 @@ import pytest
 from cryptography.exceptions import InvalidSignature
 
 from pc4store.clients.base import BaseClient
-from pc4store.data import CreateOrderInput, SuccessResponse, ErrorResponse
+from pc4store.data import CreateOrderInput, ErrorResponse, CreateOrderSuccess
 
 from tests.data import full_input, min_input, success_response, error_response
 from tests.data import order_data
@@ -22,30 +22,30 @@ from tests.utils.fixtures import rand_str
                                         CreateOrderInput(**min_input()),
                                         ])
 def test__get_validated_create_input__correct_input(input_data):
-    res = BaseClient._get_validated_create_input(input_data)
+    res = BaseClient._get_validated_create_order_input(input_data)
     assert isinstance(res, CreateOrderInput)
 
 
 def test__get_validated_create_input__incorrect_input_type():
     with pytest.raises(AssertionError):
-        BaseClient._get_validated_create_input(list())
+        BaseClient._get_validated_create_order_input(list())
 
 
 @mock.patch('pc4store.data.CreateOrderInput.from_dict', side_effect=ValueError)
 def test__get_validated_create_input__invalid_input(from_dict_mock):
     with pytest.raises(ValueError):
-        BaseClient._get_validated_create_input(min_input())
+        BaseClient._get_validated_create_order_input(min_input())
 
 
 def test__get_formatted_create_res__succress():
     resp_dict = success_response()
-    resp = BaseClient._get_formatted_create_res(resp_dict)
-    assert isinstance(resp, SuccessResponse)
+    resp = BaseClient._get_formatted_create_order_res(resp_dict)
+    assert isinstance(resp, CreateOrderSuccess)
 
 
 def test__get_formatted_create_res__error():
     resp_dict = error_response()
-    resp = BaseClient._get_formatted_create_res(resp_dict)
+    resp = BaseClient._get_formatted_create_order_res(resp_dict)
     assert isinstance(resp, ErrorResponse)
 
 
