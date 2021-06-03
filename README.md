@@ -66,24 +66,21 @@ else:
 ```python
 from pc4store.data import TransferInput
 
-if __name__ == '__main__':
-    # create order
-    # print(client.get_transfer('eb94786b-c0e3-43af-b5f9-218128fe3db5'))
-    res = client.transfer(TransferInput(
-        currency_name='USDCASH',
-        currency_smart_contract='token.pcash',
-        amount='100.00002',
-        eos_account='myeosusername',
-        response_url='https://api.my-store/transfer-callback/',
-    ))
+res = client.transfer(TransferInput(
+    currency_name='USDCASH',
+    currency_smart_contract='token.pcash',
+    amount='100.00002',
+    eos_account='myeosusername',
+    response_url='https://api.my-store/transfer-callback/',
+))
 
-    if res.status == 'OK':
-        print(res.payload.transfer)  # all data about transfer
-    else:
-        print(res.error)
+if res.status == 'OK':
+    print(res.payload.transfer)  # all data about transfer
+else:
+    print(res.error)
 ```
 
-##### Get order info
+##### Get transfer info
 
 ```python
 from pc4store.data import Transfer
