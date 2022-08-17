@@ -38,6 +38,7 @@ class TransferInput(FromDictMixin):
     currency_smart_contract: str
     eos_account: str
     response_url: str = None
+    merchant_id: str = None
 
 
 class OrderStatus(Enum):
@@ -115,14 +116,15 @@ class Transfer:
     receiver: str
     txn_type: TxnType
     status: TxnStatus
-    action: Action
+    merchant_id: str
+    action: Action = None
     memo: str = ''
 
     @classmethod
     def from_dict(cls, data: dict):
         return cls(amount=Amount.from_dict(data.pop('amount')),
                    currency=Currency.from_dict(data.pop('currency')),
-                   action=Action.from_dict(data.pop('action')),
+                   action=Action.from_dict(data.pop('action')) if 'action' in data else None,
                    **data)
 
 
