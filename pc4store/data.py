@@ -116,7 +116,7 @@ class Transfer:
     receiver: str
     txn_type: TxnType
     status: TxnStatus
-    merchant_id: str
+    merchant_id: str = None
     action: Action = None
     memo: str = ''
 
