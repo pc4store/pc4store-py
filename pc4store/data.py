@@ -164,12 +164,11 @@ class OrderPayload:
 
 @dataclass
 class TransferPayload:
-    transfer: Transfer
+    transfer_id: str
 
     @classmethod
     def from_dict(cls, data: dict):
-        return cls(transfer=Transfer.from_dict(data['transfer']))
-
+        return cls(transfer_id=data['transfer_id'])
 
 @dataclass
 class ErrorResponse:
