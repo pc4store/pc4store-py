@@ -78,7 +78,9 @@ if __name__ == '__main__':
     ))
 
     if res.status == 'OK':
-        print(res.payload.transfer)  # all data about transfer
+        # all data about transfer get be retrieved with response_url callback
+        # or with client.get_transfer()
+        print(res.payload.transfer_id)  
     else:
         print(res.error)
 ```
