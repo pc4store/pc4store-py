@@ -85,7 +85,7 @@ if __name__ == '__main__':
         print(res.error)
 ```
 
-##### Get order info
+##### Get transfer info
 
 ```python
 from pc4store.data import Transfer
