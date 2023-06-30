@@ -4,6 +4,14 @@ from datetime import datetime
 from enum import Enum
 
 
+class PaymentMethod(Enum):
+    EOS = "EOS"
+    TRON = "TRON"
+    ETHER = "ETHER"
+    RUS_PAY = "RUS_PAY"
+    WORLD_PAY = "WORLD_PAY"
+
+
 class FromDictMixin:
     @classmethod
     def from_dict(cls, input_: dict):
@@ -29,6 +37,7 @@ class CreateOrderInput(FromDictMixin):
     description: str = None
     success_payment_redirect_url: str = None
     failed_payment_redirect_url: str = None
+    allowed_methods: list[PaymentMethod] = None
 
 
 @dataclass
@@ -38,6 +47,7 @@ class TransferInput(FromDictMixin):
     currency_smart_contract: str
     eos_account: str
     response_url: str = None
+    fiat_method_id: str = None
 
 
 class OrderStatus(Enum):
@@ -61,6 +71,11 @@ class TxnStatus(Enum):
     ACCEPTED = 'ACCEPTED'  # txn processed with success
 
 
+class FiatMethodLocation(Enum):
+    RUS_PAY: 'RUS_PAY'
+    WORLD_PAY: 'WORLD_PAY'
+
+
 @dataclass
 class Amount:
     full_amount: str
@@ -70,6 +85,29 @@ class Amount:
     @classmethod
     def from_dict(cls, data: dict):
         return cls(**data)
+
+
+@dataclass
+class FiatAmount:
+    amount: str
+    fee: str
+    fiat_method_id: str
+
+    @classmethod
+    def from_dict(cls, data: dict):
+        return cls(**data)
+
+
+@dataclass
+class TransferFiatMethod:
+    name: str
+    currency_name: str
+    location: FiatMethodLocation
+
+    @classmethod
+    def from_dict(cls, data: dict):
+        return cls(**data)
+
 
 
 @dataclass
@@ -116,6 +154,8 @@ class Transfer:
     txn_type: TxnType
     status: TxnStatus
     action: Action
+    fiat_amount: FiatAmount
+    fiat_method: TransferFiatMethod
     memo: str = ''
 
     @classmethod
@@ -123,6 +163,8 @@ class Transfer:
         return cls(amount=Amount.from_dict(data.pop('amount')),
                    currency=Currency.from_dict(data.pop('currency')),
                    action=Action.from_dict(data.pop('action')),
+                   fiat_amount=FiatAmount.from_dict(data.pop('fiat_amount')),
+                   fiat_method=TransferFiatMethod.from_dict(data.pop('fiat_method')),
                    **data)
 
 
@@ -141,6 +183,7 @@ class OrderData:
     success_payment_redirect_url: str = None
     failed_payment_redirect_url: str = None
     payment_transfer: Transfer = None
+    allowed_methods: list[PaymentMethod] = None
 
     @classmethod
     def from_dict(cls, data: dict):
