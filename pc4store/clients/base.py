@@ -114,10 +114,6 @@ class BaseClient(ABC):
             return False
         return True
 
-    @abstractmethod
-    def _request(self, method: str, path: str, json: Optional[dict], obj_loader: Callable[[str], M]) -> M:
-        ...
-
     @staticmethod
     def _parse_response(obj_loader: Callable[[str], M], data: str) -> M:
         try:
@@ -130,3 +126,7 @@ class BaseClient(ABC):
                 raise v_err  # trigger initial ValidationError because the response is not an error
             else:
                 raise Pc4StoreError(pc4store_err) from None
+
+    @abstractmethod
+    def _request(self, method: str, path: str, json: Optional[dict], obj_loader: Callable[[str], M]) -> M:
+        ...
