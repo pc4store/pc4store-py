@@ -71,7 +71,7 @@ def rand_transfer():
     return {
         'id': str(uuid4()),
         'amount': rand_formatted_amount(),
-        'currency': rand_curency(),
+        'currency.py': rand_curency(),
         'sender': rand_str(),
         'receiver': rand_str(),
         'txn_type': TxnType.ORDER_PAYMENT.name,
@@ -86,7 +86,7 @@ def order_data():
         'id': str(uuid4()),
         'sequent_number': str(random.randint(1, 100)),
         'amount': rand_formatted_amount(),
-        'currency': rand_curency(),
+        'currency.py': rand_curency(),
         'status': random.choice(list(OrderStatus)).name,
         'expiration_date': (datetime.utcnow() + timedelta(
             minutes=random.randint(1, 100))).isoformat(),

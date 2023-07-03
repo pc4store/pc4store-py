@@ -1,3 +1,4 @@
 requests>=2.25.1
 cryptography>=3.4.5
 aiohttp>=3.6.2
+pydantic>=2.0
