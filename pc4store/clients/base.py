@@ -1,7 +1,7 @@
 import hashlib
 import json
 from abc import ABC, abstractmethod
-from typing import Union, Any, Callable, TypeVar, Awaitable
+from typing import Union, Any, Callable, TypeVar, Awaitable, Optional
 
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
 
@@ -59,16 +59,16 @@ class BaseClient(ABC):
         )
 
     def create_transfer(self, input_: CreateTransferInput) -> Union[Transfer, Awaitable[Transfer]]:
-        json_ = input_.model_dump_json(exclude_none=True)
+        json = input_.model_dump(mode='json', exclude_none=True)
 
         def load_obj(data: str) -> Transfer:
-            resp = TransferResponse.model_validate_json(data,)
+            resp = TransferResponse.model_validate_json(data)
             return resp.payload.order
 
         return self._request(
             'POST',
             rf'{self.base_url}/v1/transfer',
-            json_,
+            json,
             load_obj
         )
 
@@ -119,5 +119,5 @@ class BaseClient(ABC):
         return True
 
     @abstractmethod
-    def _request(self, method: str, path: str, json: Any, obj_loader: Callable[[str], M]) -> M:
+    def _request(self, method: str, path: str, json: Optional[dict], obj_loader: Callable[[str], M]) -> M:
         ...

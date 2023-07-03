@@ -33,10 +33,10 @@ class Order(BaseModel):
     currency: CurrencyInfo
     status: OrderStatus
     expiration_date: datetime
-    payment_url: AnyHttpUrl
-    response_url: AnyHttpUrl
-    success_payment_redirect_url: Optional[AnyHttpUrl] = None
-    failed_payment_redirect_url: Optional[AnyHttpUrl] = None
+    payment_url: str
+    response_url: Optional[str] = None
+    success_payment_redirect_url: Optional[str] = None
+    failed_payment_redirect_url: Optional[str] = None
     is_test: bool
     details: OrderDetails
     payment_transfer: Optional[Transfer] = None

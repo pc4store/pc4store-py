@@ -32,7 +32,6 @@ class CurrencyInfo(BaseModel):
 
 class Transfer(BaseModel):
     id: str
-    merchant_id: str
     amount: Amount
     fiat_amount: FiatAmount
     fiat_method: FiatMethodInfo
@@ -43,7 +42,7 @@ class Transfer(BaseModel):
     receiver: str
     txn_type: TxnType
     status: TransferStatus
-    memo: str
+    memo: Optional[str] = None
     action: dict
 
 
