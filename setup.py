@@ -12,7 +12,7 @@ setup(
     long_description=long_description,
     long_description_content_type='text/markdown',
     license='MIT',
-    packages=find_packages(exclude=['tests']),
+    packages=find_packages(exclude=['tests', 'examples']),
     install_requires=install_requires,
     include_package_data=True,
 )
