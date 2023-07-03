@@ -1,5 +1,5 @@
-from dataclasses import asdict
-from typing import Union, Optional, Callable, Any, TypeVar
+from typing import Callable, Any, TypeVar
+
 from aiohttp import request, BasicAuth
 
 from pc4store.clients.base import BaseClient

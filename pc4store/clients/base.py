@@ -1,38 +1,31 @@
 import hashlib
 import json
-from typing import Union, Any, Callable, TypeVar, Awaitable
-
-from pc4store import config
-
 from abc import ABC, abstractmethod
+from typing import Union, Any, Callable, TypeVar, Awaitable
 
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
 
-from pc4store.schema.order import CreateOrderInput, Order, OrderResponse
-from pc4store.schema.transfer import CreateTransferInput, Transfer, TransferResponse
 from pc4store.schema.currency import Currency
 from pc4store.schema.fiat import FiatMethod
+from pc4store.schema.order import CreateOrderInput, Order, OrderResponse
+from pc4store.schema.transfer import CreateTransferInput, Transfer, TransferResponse
 
 M = TypeVar('M')
 
+
 class BaseClient(ABC):
-    # CREATE_ORDER = '/v1/create'
-    # GET_ORDER = '/v1/order_info'
-    # TRANSFER = '/v1/transfer'
-    # GET_TRANSFER = '/v1/transfer_info'
-    # CURRENCIES = '/v1/currencies'
-    # FIAT_METHODS = '/v1/fiat_methods'
 
     def __init__(self, store_id: str,
                  store_key: str,
-                 store_public_key: Union[str, bytes, Ed25519PublicKey] = '69f72437e2e359a3e5c29fe9a7e0d509345cc57b7bfca0b470598d679a349806',
+                 store_public_key: Union[
+                     str, bytes, Ed25519PublicKey] = '69f72437e2e359a3e5c29fe9a7e0d509345cc57b7bfca0b470598d679a349806',
                  store_base_url: str = 'https://api.pc4.store',
                  ):
         self.store_id = store_id
         self.store_key = store_key
         self.base_url = store_base_url
         if isinstance(store_public_key, str):
-            store_public_key = bytes(bytearray.fromhex(config.PUBLIC_KEY))
+            store_public_key = bytes(bytearray.fromhex(store_public_key))
         if isinstance(store_public_key, bytes):
             store_public_key = Ed25519PublicKey.from_public_bytes(store_public_key)
         if isinstance(store_public_key, Ed25519PublicKey):
@@ -95,6 +88,7 @@ class BaseClient(ABC):
             return [
                 Currency.model_validate(curr) for curr in data
             ]
+
         return self._request(
             'GET',
             rf'{self.base_url}/v1/currencies',
@@ -115,7 +109,6 @@ class BaseClient(ABC):
             load_obj
         )
 
-
     def is_signature_correct(self, json_body: dict, headers: dict) -> bool:
         signature = headers.get('SIGNATURE')
         assert signature is not None
@@ -127,7 +120,6 @@ class BaseClient(ABC):
         except Exception:
             return False
         return True
-
 
     @abstractmethod
     def _request(self, method: str, path: str, json: Any, obj_loader: Callable[[Any], M]) -> M:

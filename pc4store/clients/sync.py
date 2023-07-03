@@ -1,4 +1,5 @@
 from typing import Callable, Any, TypeVar
+
 import requests
 
 from .base import BaseClient
