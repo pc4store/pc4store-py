@@ -5,10 +5,11 @@ from typing import Union, Any, Callable, TypeVar, Awaitable
 
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
 
-from pc4store.schema.currency import Currency
-from pc4store.schema.fiat import FiatMethod
+from pc4store.schema.currency import Currency, CurrencyList
+from pc4store.schema.fiat import FiatMethod, FiatMethodList
 from pc4store.schema.order import CreateOrderInput, Order, OrderResponse
 from pc4store.schema.transfer import CreateTransferInput, Transfer, TransferResponse
+
 
 M = TypeVar('M')
 
@@ -32,10 +33,10 @@ class BaseClient(ABC):
             self.public_key = store_public_key
 
     def create_order(self, input_: CreateOrderInput) -> Union[Order, Awaitable[Order]]:
-        json_ = input_.model_dump_json(exclude_none=True)
+        json_ = input_.model_dump(mode='json', exclude_none=True)
 
-        def load_obj(data: dict) -> Order:
-            resp = OrderResponse.model_validate(data)
+        def load_obj(data: str) -> Order:
+            resp = OrderResponse.model_validate_json(data)
             return resp.payload.order
 
         return self._request(
@@ -46,8 +47,8 @@ class BaseClient(ABC):
         )
 
     def get_order(self, order_id: str) -> Union[Order, Awaitable[Order]]:
-        def load_obj(data: dict) -> Order:
-            resp = OrderResponse.model_validate(data)
+        def load_obj(data: str) -> Order:
+            resp = OrderResponse.model_validate_json(data)
             return resp.payload.order
 
         return self._request(
@@ -60,8 +61,8 @@ class BaseClient(ABC):
     def create_transfer(self, input_: CreateTransferInput) -> Union[Transfer, Awaitable[Transfer]]:
         json_ = input_.model_dump_json(exclude_none=True)
 
-        def load_obj(data: dict) -> Transfer:
-            resp = TransferResponse.model_validate(data)
+        def load_obj(data: str) -> Transfer:
+            resp = TransferResponse.model_validate_json(data,)
             return resp.payload.order
 
         return self._request(
@@ -72,8 +73,8 @@ class BaseClient(ABC):
         )
 
     def get_transfer(self, transfer_id: str) -> Union[Transfer, Awaitable[Transfer]]:
-        def load_obj(data: dict) -> Transfer:
-            resp = TransferResponse.model_validate(data)
+        def load_obj(data: str) -> Transfer:
+            resp = TransferResponse.model_validate_json(data)
             return resp.payload.order
 
         return self._request(
@@ -84,10 +85,8 @@ class BaseClient(ABC):
         )
 
     def get_currencies(self) -> Union[list[Currency], Awaitable[list[Currency]]]:
-        def load_obj(data: list[dict]) -> list[Currency]:
-            return [
-                Currency.model_validate(curr) for curr in data
-            ]
+        def load_obj(data: str) -> list[Currency]:
+            return CurrencyList.validate_json(data)
 
         return self._request(
             'GET',
@@ -97,10 +96,8 @@ class BaseClient(ABC):
         )
 
     def get_fiat_methods(self) -> Union[list[FiatMethod], Awaitable[list[FiatMethod]]]:
-        def load_obj(data: list[dict]) -> list[FiatMethod]:
-            return [
-                FiatMethod.model_validate(meth) for meth in data
-            ]
+        def load_obj(data: str) -> list[FiatMethod]:
+            return FiatMethodList.validate_json(data)
 
         return self._request(
             'GET',
@@ -122,5 +119,5 @@ class BaseClient(ABC):
         return True
 
     @abstractmethod
-    def _request(self, method: str, path: str, json: Any, obj_loader: Callable[[Any], M]) -> M:
+    def _request(self, method: str, path: str, json: Any, obj_loader: Callable[[str], M]) -> M:
         ...

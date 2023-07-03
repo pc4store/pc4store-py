@@ -35,11 +35,11 @@ class Order(BaseModel):
     expiration_date: datetime
     payment_url: AnyHttpUrl
     response_url: AnyHttpUrl
-    success_payment_redirect_url: Optional[AnyHttpUrl]
-    failed_payment_redirect_url: Optional[AnyHttpUrl]
+    success_payment_redirect_url: Optional[AnyHttpUrl] = None
+    failed_payment_redirect_url: Optional[AnyHttpUrl] = None
     is_test: bool
     details: OrderDetails
-    payment_transfer: Optional[Transfer]
+    payment_transfer: Optional[Transfer] = None
     allowed_methods: list[PaymentMethod]
 
 

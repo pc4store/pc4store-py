@@ -112,3 +112,5 @@ dmypy.json
 .idea
 *.swp
 static_collected
+
+.sandbox

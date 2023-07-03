@@ -2,8 +2,8 @@ from enum import Enum
 
 
 class ResponseStatus(Enum):
-    OK: 'OK'
-    ERROR: 'ERROR'
+    OK = 'OK'
+    ERROR = 'ERROR'
 
 
 class PaymentMethod(Enum):
@@ -21,8 +21,8 @@ class Blockchain(Enum):
 
 
 class FiatMethodLocation(Enum):
-    RUS_PAY: 'RUS_PAY'
-    WORLD_PAY: 'WORLD_PAY'
+    RUS_PAY = 'RUS_PAY'
+    WORLD_PAY = 'WORLD_PAY'
 
 
 class FiatMethodDirection(Enum):

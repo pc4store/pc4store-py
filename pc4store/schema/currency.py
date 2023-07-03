@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, TypeAdapter
 from decimal import Decimal
 from .enums import Blockchain
 from typing import Optional
@@ -20,10 +20,13 @@ class Currency(BaseModel):
     withdraw_fee_fix: Decimal
     withdraw_fee_percentage: Decimal
 
-    txn_limit: Optional[Decimal]
-    account_limit: Optional[Decimal]
-    day_limit: Optional[Decimal]
+    txn_limit: Optional[Decimal] = None
+    account_limit: Optional[Decimal] = None
+    day_limit: Optional[Decimal] = None
 
-    txn_cap: Optional[Decimal]
-    account_cap: Optional[Decimal]
-    day_cap: Optional[Decimal]
+    txn_cap: Optional[Decimal] = None
+    account_cap: Optional[Decimal] = None
+    day_cap: Optional[Decimal] = None
+
+
+CurrencyList = TypeAdapter(list[Currency])

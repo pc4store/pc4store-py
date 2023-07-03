@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, TypeAdapter
 from decimal import Decimal
 from .enums import FiatMethodDirection, FiatMethodLocation
 from typing import List
@@ -18,3 +18,6 @@ class FiatMethod(BaseModel):
     location: FiatMethodLocation
     name: str
     rates: List[ExchangeRate]
+
+
+FiatMethodList = TypeAdapter(list[FiatMethod])
