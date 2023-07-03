@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-install_requires = ['requests>=2.25.1', 'cryptography>=3.4.5', 'aiohttp>=3.6.2', 'pydantic>=2.0']
+install_requires = ['cryptography>=3.4.5', 'pydantic>=2.0', 'httpx>=0.24.1']
 
 with open('README.md', 'r') as f:
     long_description = f.read()

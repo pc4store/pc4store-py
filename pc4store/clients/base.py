@@ -1,7 +1,7 @@
 import hashlib
 import json
 from abc import ABC, abstractmethod
-from typing import Union, Any, Callable, TypeVar, Awaitable, Optional
+from typing import Union, Callable, TypeVar, Awaitable, Optional
 
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
 
@@ -9,7 +9,9 @@ from pc4store.schema.currency import Currency, CurrencyList
 from pc4store.schema.fiat import FiatMethod, FiatMethodList
 from pc4store.schema.order import CreateOrderInput, Order, OrderResponse
 from pc4store.schema.transfer import CreateTransferInput, Transfer, TransferResponse
+from pc4store.schema.exceptions import Pc4StoreError, Pc4StoreErrorResponse
 
+from pydantic import ValidationError
 
 M = TypeVar('M')
 
@@ -85,25 +87,19 @@ class BaseClient(ABC):
         )
 
     def get_currencies(self) -> Union[list[Currency], Awaitable[list[Currency]]]:
-        def load_obj(data: str) -> list[Currency]:
-            return CurrencyList.validate_json(data)
-
         return self._request(
             'GET',
             rf'{self.base_url}/v1/currencies',
             None,
-            load_obj
+            CurrencyList.validate_json
         )
 
     def get_fiat_methods(self) -> Union[list[FiatMethod], Awaitable[list[FiatMethod]]]:
-        def load_obj(data: str) -> list[FiatMethod]:
-            return FiatMethodList.validate_json(data)
-
         return self._request(
             'GET',
             rf'{self.base_url}/v1/fiat_methods',
             None,
-            load_obj
+            FiatMethodList.validate_json
         )
 
     def is_signature_correct(self, json_body: dict, headers: dict) -> bool:
@@ -121,3 +117,16 @@ class BaseClient(ABC):
     @abstractmethod
     def _request(self, method: str, path: str, json: Optional[dict], obj_loader: Callable[[str], M]) -> M:
         ...
+
+    @staticmethod
+    def _parse_response(obj_loader: Callable[[str], M], data: str) -> M:
+        try:
+            result_obj = obj_loader(data)
+            return result_obj
+        except ValidationError as v_err:
+            try:
+                pc4store_err = Pc4StoreErrorResponse.model_validate_json(data)
+            except ValidationError:
+                raise v_err  # trigger initial ValidationError because the response is not an error
+            else:
+                raise Pc4StoreError(pc4store_err) from None
