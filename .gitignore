@@ -114,3 +114,4 @@ dmypy.json
 static_collected
 
 .sandbox
+.tests
