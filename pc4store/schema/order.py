@@ -22,8 +22,8 @@ class CreateOrderInput(BaseModel):
 
 
 class OrderDetails(BaseModel):
-    merchant_order_id: str
-    description: str
+    merchant_order_id: Optional[str] = None
+    description: Optional[str] = None
 
 
 class Order(BaseModel):

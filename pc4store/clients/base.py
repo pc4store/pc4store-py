@@ -22,7 +22,7 @@ class BaseClient(ABC):
                  store_key: str,
                  store_public_key: Union[
                      str, bytes, Ed25519PublicKey] = '69f72437e2e359a3e5c29fe9a7e0d509345cc57b7bfca0b470598d679a349806',
-                 store_base_url: str = 'https://api.pc4.store',
+                 store_base_url: str = 'https://api.test.pc4.store',
                  ):
         self.store_id = store_id
         self.store_key = store_key
@@ -123,7 +123,7 @@ class BaseClient(ABC):
             try:
                 pc4store_err = Pc4StoreErrorResponse.model_validate_json(data)
             except ValidationError:
-                raise v_err  # trigger initial ValidationError because the response is not an error
+                raise v_err from None # trigger initial ValidationError because the response is not an error
             else:
                 raise Pc4StoreError(pc4store_err) from None
 
