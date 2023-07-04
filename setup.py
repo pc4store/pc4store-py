@@ -1,18 +1,18 @@
 from setuptools import setup, find_packages
 
-install_requires = ['requests>=2.25.1', 'cryptography>=3.4.5', 'aiohttp>=3.6.2']
+install_requires = ["cryptography>=3.4.5", "pydantic>=2.0", "httpx>=0.24.1"]
 
-with open('README.md', 'r') as f:
+with open("README.md", "r") as f:
     long_description = f.read()
 
 setup(
-    name='pc4store',
-    version='1.1.0',
-    description='Python lib for integration with pc4store payment system',
+    name="pc4store",
+    version="2.0.1",
+    description="Python lib for integration with pc4store payment system",
     long_description=long_description,
-    long_description_content_type='text/markdown',
-    license='MIT',
-    packages=find_packages(exclude=['tests']),
+    long_description_content_type="text/markdown",
+    license="MIT",
+    packages=find_packages(exclude=[".tests", "examples"]),
     install_requires=install_requires,
     include_package_data=True,
 )

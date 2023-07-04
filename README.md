@@ -24,75 +24,116 @@ client = Pc4StoreClient(store_id=my_store_id, store_key=my_store_secret_key)
 ##### Create order
 
 ```python
-from pc4store.data import CreateOrderInput, OrderData
+from pc4store.clients import Pc4StoreClient
+from pc4store.schema import CreateOrderInput, Order, Pc4StoreError
 
-res = client.create_order(
-    CreateOrderInput(
+from decimal import Decimal
+
+my_store_id = 'e40e58c5-2dd2-4c3b-994f-5af9c7ea255b'
+my_store_secret_key = 'b8c4d4c6-579a-41aa-b887-d390242ce339'
+
+# initialize client
+client = Pc4StoreClient(store_id=my_store_id, store_key=my_store_secret_key)
+
+try:
+    order: Order = client.create_order(CreateOrderInput(
         currency_name='USDCASH',
         currency_smart_contract='token.pcash',
-        amount_to_pay='99.99999',
+        amount_to_pay=Decimal(999),     # it can also be decimal-like string, float or integer
         response_url='https://api.my-store/payment-callback/',
         expiration_time=30 * 60,  # 30 min
         merchant_order_id='12345',
         description='optional description for this order',
         success_payment_redirect_url='https://my-store/orders/12345/success',
         failed_payment_redirect_url='https://my-store/orders/12345/failed',
-    )
-)
-
-if res.status == 'OK':
-    order: OrderData = res.payload.order  # all data about order
-    payment_link = order.payment_url  # link to redirect user for payment
-    order_id = order.id  # unique order id in payment system
+    ))
+except Pc4StoreError as err:
+    print(err)
 else:
-    print(res.error)
+    print(order.id)     # pc4store order id
+    print(order.payment_url)  # link to redirect user for payment
+
 ```
+
+
 
 ##### Get order info
 
 ```python
+from pc4store.clients import Pc4StoreClient
+from pc4store.schema import CreateOrderInput, Order, Pc4StoreError
+
+
+my_store_id = 'e40e58c5-2dd2-4c3b-994f-5af9c7ea255b'
+my_store_secret_key = 'b8c4d4c6-579a-41aa-b887-d390242ce339'
+
 order_id = 'order_id_in_payment_system'
 
-order: OrderData = client.get_order(order_id)
+# initialize client
+client = Pc4StoreClient(store_id=my_store_id, store_key=my_store_secret_key)
 
-if order:
-    # do some staff
-    print('Actual order status: ', order.status)
+try:
+    order: Order = client.get_order(order_id)
+except Pc4StoreError as err:
+    print(err)
 else:
-    print('Opps, order not found...')
+    print(order.id)     # pc4store order id
+    print(order.payment_url)  # link to redirect user for payment
+
 ```
 
 ##### Create transfer
 ```python
-from pc4store.data import TransferInput
+from pc4store.clients import Pc4StoreClient
+from pc4store.schema import CreateTransferInput, Transfer, Pc4StoreError
 
-res = client.transfer(TransferInput(
-    currency_name='USDCASH',
-    currency_smart_contract='token.pcash',
-    amount='100.00002',
-    eos_account='myeosusername',
-    response_url='https://api.my-store/transfer-callback/',
-))
+from decimal import Decimal
 
-if res.status == 'OK':
-    print(res.payload.transfer)  # all data about transfer
+my_store_id = 'e40e58c5-2dd2-4c3b-994f-5af9c7ea255b'
+my_store_secret_key = 'b8c4d4c6-579a-41aa-b887-d390242ce339'
+
+# initialize client
+client = Pc4StoreClient(store_id=my_store_id, store_key=my_store_secret_key)
+
+try:
+    transfer: Transfer = client.create_transfer(CreateTransferInput(
+        amount=Decimal('25.5'),
+        currency_name='USDCASH',
+        currency_smart_contract='token.pcash',
+        eos_account='reciever.pcash',
+        response_url="https://api.my-store/payment-callback/",
+    ))
+except Pc4StoreError as err:
+    print(err)
 else:
-    print(res.error)
+    print(transfer.id)     # pc4store transfer id
+    print(transfer.status)  # transfer status
+
 ```
 
 ##### Get transfer info
 
 ```python
-from pc4store.data import Transfer
+from pc4store.clients import Pc4StoreClient
+from pc4store.schema import Transfer, Pc4StoreError
 
-transfer_id = 'transfer_id_in_payment_system'
-transfer: Transfer = client.get_transfer(transfer_id)
 
-if transfer:
-    # do some staff
-    print('Actual transfer status: ', transfer.status, transfer.action.is_irreversible)
+my_store_id = 'e40e58c5-2dd2-4c3b-994f-5af9c7ea255b'
+my_store_secret_key = 'b8c4d4c6-579a-41aa-b887-d390242ce339'
+
+transfer_id = 'pc4store_transfer_id'
+
+# initialize client
+client = Pc4StoreClient(store_id=my_store_id, store_key=my_store_secret_key)
+
+try:
+    transfer: Transfer = client.get_transfer(transfer_id)
+except Pc4StoreError as err:
+    print(err)
 else:
-    print('Opps, transfer not found...')
+    print(transfer.id)     # pc4store transfer id
+    print(transfer.status)  # transfer status
+
 ```
 
 ##### Verify callback request
@@ -122,3 +163,24 @@ my_store_secret_key = 'secret'
 client = Pc4StoreAsyncClient(store_id=my_store_id, store_key=my_store_secret_key)
 ```
 
+### Run test
+
+1. Clone the repository
+
+```commandline
+git clone https://github.com/pc4store/pc4store-py.git
+cd pc4store-py
+ ```
+
+2. Install dependencies
+
+```commandline
+pip install -r requirements.txt
+pip install -r test_requirements.txt
+```
+
+3. Run tests
+
+```commandline
+pytest .
+```
