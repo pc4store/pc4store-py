@@ -31,4 +31,4 @@ class Currency(BaseModel):
     day_cap: Optional[Decimal] = None
 
 
-CurrencyList = TypeAdapter(list[Currency])
+CurrencyList: TypeAdapter = TypeAdapter(list[Currency])

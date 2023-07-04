@@ -124,5 +124,5 @@ class BaseClient(ABC):
             path: str,
             json: Optional[dict],
             obj_loader: Callable[[str], M],
-    ) -> M:
+    ) -> Union[M, Awaitable[M]]:
         ...

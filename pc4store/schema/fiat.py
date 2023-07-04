@@ -22,4 +22,4 @@ class FiatMethod(BaseModel):
     rates: List[ExchangeRate]
 
 
-FiatMethodList = TypeAdapter(list[FiatMethod])
+FiatMethodList: TypeAdapter = TypeAdapter(list[FiatMethod])
