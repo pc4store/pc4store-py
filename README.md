@@ -163,3 +163,24 @@ my_store_secret_key = 'secret'
 client = Pc4StoreAsyncClient(store_id=my_store_id, store_key=my_store_secret_key)
 ```
 
+### Run test
+
+1. Clone the repository
+
+```commandline
+git clone https://github.com/pc4store/pc4store-py.git
+cd pc4store-py
+ ```
+
+2. Install dependencies
+
+```commandline
+pip install -r requirements.txt
+pip install -r test_requirements.txt
+```
+
+3. Run tests
+
+```commandline
+pytest .
+```
