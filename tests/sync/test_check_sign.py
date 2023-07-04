@@ -23,7 +23,7 @@ def test_is_signature_correct_success():
         store_id=str(uuid4()),
         store_key=str(uuid4()),
     )
-    headers = {'SIGNATURE': hashlib.sha256(rand_str().encode()).hexdigest()}
+    headers = {"SIGNATURE": hashlib.sha256(rand_str().encode()).hexdigest()}
     client.public_key = MockPublicKey()
     is_correct = client.is_signature_correct({}, headers)
     assert is_correct
@@ -34,7 +34,7 @@ def test_is_signature_correct_invalid_publickey():
         store_id=str(uuid4()),
         store_key=str(uuid4()),
     )
-    headers = {'SIGNATURE': hashlib.sha256(rand_str().encode()).hexdigest()}
+    headers = {"SIGNATURE": hashlib.sha256(rand_str().encode()).hexdigest()}
     client.public_key = MockInvalidPublicKey()
     is_correct = client.is_signature_correct({}, headers)
     assert not is_correct
