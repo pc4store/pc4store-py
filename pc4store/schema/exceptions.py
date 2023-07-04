@@ -1,9 +1,10 @@
-from pydantic import BaseModel
 from typing import Literal
+
+from pydantic import BaseModel
 
 
 class Pc4StoreErrorResponse(BaseModel):
-    status: Literal['ERROR']
+    status: Literal["ERROR"]
     error: str
 
 

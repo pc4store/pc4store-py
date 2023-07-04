@@ -1,7 +1,9 @@
-from pydantic import BaseModel, TypeAdapter
 from decimal import Decimal
-from .enums import FiatMethodDirection, FiatMethodLocation
 from typing import List
+
+from pydantic import BaseModel, TypeAdapter
+
+from .enums import FiatMethodDirection, FiatMethodLocation
 
 
 class ExchangeRate(BaseModel):

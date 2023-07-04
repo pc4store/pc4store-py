@@ -1,7 +1,9 @@
-from pydantic import BaseModel, TypeAdapter
 from decimal import Decimal
-from .enums import Blockchain
 from typing import Optional
+
+from pydantic import BaseModel, TypeAdapter
+
+from .enums import Blockchain
 
 
 class Currency(BaseModel):

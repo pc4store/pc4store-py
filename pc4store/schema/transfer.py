@@ -63,3 +63,11 @@ class CreateTransferInput(BaseModel):
     response_url: str
     fiat_method_id: Optional[str] = None
 
+
+class CreateTransferPayload(BaseModel):
+    transfer_id: str
+
+
+class CreateTransferResponse(BaseModel):
+    status: ResponseStatus
+    payload: CreateTransferPayload
