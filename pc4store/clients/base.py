@@ -22,13 +22,13 @@ M = TypeVar("M")
 
 class BaseClient(ABC):
     def __init__(
-            self,
-            store_id: str,
-            store_key: str,
-            store_public_key: Union[
-                str, bytes, Ed25519PublicKey
-            ] = "69f72437e2e359a3e5c29fe9a7e0d509345cc57b7bfca0b470598d679a349806",
-            store_base_url: str = "https://api.pc4.store",
+        self,
+        store_id: str,
+        store_key: str,
+        store_public_key: Union[
+            str, bytes, Ed25519PublicKey
+        ] = "69f72437e2e359a3e5c29fe9a7e0d509345cc57b7bfca0b470598d679a349806",
+        store_base_url: str = "https://api.pc4.store",
     ):
         self.store_id = store_id
         self.store_key = store_key
@@ -42,6 +42,7 @@ class BaseClient(ABC):
 
     def create_order(self, input_: CreateOrderInput) -> Union[Order, Awaitable[Order]]:
         json_ = json.loads(input_.json(exclude_none=True))
+
         def load_obj(data: str) -> Order:
             resp = OrderResponse.parse_raw(data)
             return resp.payload.order
@@ -58,7 +59,7 @@ class BaseClient(ABC):
         )
 
     def create_transfer(
-            self, input_: CreateTransferInput
+        self, input_: CreateTransferInput
     ) -> Union[str, Awaitable[str]]:
         json_ = json.loads(input_.json(exclude_none=True))
 
@@ -78,26 +79,18 @@ class BaseClient(ABC):
         )
 
     def get_currencies(self) -> Union[list[Currency], Awaitable[list[Currency]]]:
-
         def load_obj(data: str) -> list[Currency]:
             resp = CurrencyList.parse_raw(data)
             return resp.__root__
 
-        return self._request(
-            "GET", rf"{self.base_url}/v1/currencies", None, load_obj
-        )
+        return self._request("GET", rf"{self.base_url}/v1/currencies", None, load_obj)
 
     def get_fiat_methods(self) -> Union[list[FiatMethod], Awaitable[list[FiatMethod]]]:
         def load_obj(data: str) -> list[FiatMethod]:
             resp = FiatMethodList.parse_raw(data)
             return resp.__root__
 
-        return self._request(
-            "GET",
-            rf"{self.base_url}/v1/fiat_methods",
-            None,
-            load_obj
-        )
+        return self._request("GET", rf"{self.base_url}/v1/fiat_methods", None, load_obj)
 
     def is_signature_correct(self, json_body: dict, headers: dict) -> bool:
         signature = headers.get("SIGNATURE")
@@ -127,10 +120,10 @@ class BaseClient(ABC):
 
     @abstractmethod
     def _request(
-            self,
-            method: str,
-            path: str,
-            json: Optional[dict],
-            obj_loader: Callable[[str], M],
+        self,
+        method: str,
+        path: str,
+        json: Optional[dict],
+        obj_loader: Callable[[str], M],
     ) -> Union[M, Awaitable[M]]:
         ...
