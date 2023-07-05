@@ -1,5 +1,6 @@
 from setuptools import setup, find_packages
 
+
 install_requires = ["cryptography>=3.4.5", "pydantic>=1.10.0,<2.0.0", "httpx>=0.24.1"]
 
 with open("README.md", "r") as f:

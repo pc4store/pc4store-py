@@ -42,7 +42,6 @@ class BaseClient(ABC):
 
     def create_order(self, input_: CreateOrderInput) -> Union[Order, Awaitable[Order]]:
         json_ = json.loads(input_.json(exclude_none=True))
-
         def load_obj(data: str) -> Order:
             resp = OrderResponse.parse_raw(data)
             return resp.payload.order

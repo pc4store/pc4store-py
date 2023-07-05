@@ -33,3 +33,4 @@ class Currency(BaseModel):
 
 class CurrencyList(BaseModel):
     __root__: List[Currency]
+
