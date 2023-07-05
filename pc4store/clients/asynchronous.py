@@ -13,11 +13,11 @@ class Pc4StoreAsyncClient(BaseClient):
         self._client: AsyncClient = client or AsyncClient()
 
     async def _request(
-            self,
-            method: str,
-            path: str,
-            json: Optional[dict],
-            obj_loader: Callable[[str], M],
+        self,
+        method: str,
+        path: str,
+        json: Optional[dict],
+        obj_loader: Callable[[str], M],
     ) -> M:
         response = await self._client.request(
             method, path, auth=BasicAuth(self.store_id, self.store_key), json=json
