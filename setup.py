@@ -8,7 +8,7 @@ with open("README.md", "r") as f:
 
 setup(
     name="pc4store",
-    version="2.0.2",
+    version="2.0.3",
     description="Python lib for integration with pc4store payment system",
     long_description=long_description,
     long_description_content_type="text/markdown",

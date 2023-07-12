@@ -60,7 +60,9 @@ class CreateTransferInput(BaseModel):
     currency_name: str
     currency_smart_contract: str
     eos_account: str
-    response_url: str
+    response_url: Optional[str] = None
+    merchant_id: Optional[str] = None
+    memo: Optional[str] = None
     fiat_method_id: Optional[str] = None
 
 
