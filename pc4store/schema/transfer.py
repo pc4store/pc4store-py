@@ -33,8 +33,8 @@ class CurrencyInfo(BaseModel):
 class Transfer(BaseModel):
     id: str
     amount: Amount
-    fiat_amount: FiatAmount
-    fiat_method: FiatMethodInfo
+    fiat_amount: Optional[FiatAmount]
+    fiat_method: Optional[FiatMethodInfo]
 
     currency: CurrencyInfo
 
