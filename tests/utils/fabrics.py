@@ -121,6 +121,7 @@ def rand_fiat_methods_response():
             "fee_percentage": "0.010000",
             "id": str(uuid4()),
             "location": "RUS_PAY",
+            "minimal_amount": "0.10",
             "name": rand_str(),
             "rates": [
                 {
