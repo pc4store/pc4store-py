@@ -15,6 +15,7 @@ from pc4store.schema.transfer import (
     Transfer,
     TransferResponse,
     CreateTransferResponse,
+    ValidateTransferResponse,
 )
 
 M = TypeVar("M")
@@ -69,6 +70,16 @@ class BaseClient(ABC):
 
         return self._request("POST", rf"{self.base_url}/v1/transfer", json_, load_obj)
 
+    def validate_transfer(
+            self, input_: CreateTransferInput
+    ) -> Union[None, Awaitable[None]]:
+        json_ = json.loads(input_.json(exclude_none=True))
+
+        def load_obj(data: str) -> None:
+            ValidateTransferResponse.parse_raw(data)
+
+        return self._request('POST', rf"{self.base_url}/v1/validate_transfer", json_, load_obj)
+
     def get_transfer(self, transfer_id: str) -> Union[Transfer, Awaitable[Transfer]]:
         def load_obj(data: str) -> Transfer:
             resp = TransferResponse.parse_raw(data)
@@ -91,6 +102,7 @@ class BaseClient(ABC):
             return resp.__root__
 
         return self._request("GET", rf"{self.base_url}/v1/fiat_methods", None, load_obj)
+
 
     def is_signature_correct(self, json_body: dict, headers: dict) -> bool:
         signature = headers.get("SIGNATURE")

@@ -1,5 +1,5 @@
 from decimal import Decimal
-from typing import Optional
+from typing import Optional, Literal
 
 from pydantic import BaseModel
 
@@ -53,6 +53,10 @@ class TransferPayload(BaseModel):
 class TransferResponse(BaseModel):
     status: ResponseStatus
     payload: TransferPayload
+
+
+class ValidateTransferResponse(BaseModel):
+    status: Literal['OK']
 
 
 class CreateTransferInput(BaseModel):
