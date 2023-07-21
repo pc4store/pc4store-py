@@ -122,6 +122,7 @@ def rand_fiat_methods_response():
             "id": str(uuid4()),
             "location": "RUS_PAY",
             "minimal_amount": "0.10",
+            "maximal_amount": "10000.00",
             "name": rand_str(),
             "rates": [
                 {

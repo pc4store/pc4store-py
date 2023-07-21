@@ -16,6 +16,7 @@ class FiatMethod(BaseModel):
     fee_fix: Decimal
     fee_percentage: Decimal
     minimal_amount: Decimal
+    maximal_amount: Decimal
     id: str
     location: FiatMethodLocation
     name: str
