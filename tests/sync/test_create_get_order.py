@@ -73,6 +73,8 @@ def test_get_order_success():
     result = client.get_order(order_id=order_id)
     assert get_order_route.call_count == 1
     assert isinstance(result, Order)
+    assert result.payment_transfer
+    assert len(result.transfers) == 1
 
 
 @respx.mock

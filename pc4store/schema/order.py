@@ -40,6 +40,7 @@ class Order(BaseModel):
     is_test: bool
     details: OrderDetails
     payment_transfer: Optional[Transfer] = None
+    transfers: Optional[List[Transfer]] = None
     allowed_methods: list[PaymentMethod]
 
 

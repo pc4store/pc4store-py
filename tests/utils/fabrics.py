@@ -70,6 +70,56 @@ def rand_order_response():
                     "EOS",
                     "ETHER",
                 ],
+                'payment_transfer': {
+                    'action': {
+                        'block_number': 54321,
+                        'global_sequence': 500400,
+                        'is_irreversible': True,
+                        'is_reversed': False,
+                        'txid': '5a8e6360bc7372370000000000000000000001771a74127242b87ce1cac10513'
+                    },
+                    'amount': {'amount_after_tax': '10.00000',
+                               'fee': '0.00000',
+                               'full_amount': '10.00000'},
+                    'currency': {'name': 'USDT',
+                                 'precission': 5,
+                                 'smart_contract': 'SC'},
+                    'fiat_amount': None,
+                    'fiat_method': None,
+                    'id': '06dbefaf-6fa9-4799-b74d-ce0bab531d0a',
+                    'memo': None,
+                    'merchant_id': None,
+                    'receiver': 'store.pcash',
+                    'sender': 'esaxv659ul',
+                    'status': 'ACCEPTED',
+                    'txn_type': 'ORDER_PAYMENT'
+                },
+                'transfers': [
+                    {
+                        'action': {
+                            'block_number': 54322,
+                            'global_sequence': 500401,
+                            'is_irreversible': True,
+                            'is_reversed': False,
+                            'txid': '4a8e6460b47374370000000000000000000001741a74127242b874e4cac14514'
+                        },
+                        'amount': {'amount_after_tax': '10.00000',
+                                   'fee': '0.00000',
+                                   'full_amount': '10.00000'},
+                        'currency': {'name': 'USDT',
+                                     'precission': 5,
+                                     'smart_contract': 'SC'},
+                        'fiat_amount': None,
+                        'fiat_method': None,
+                        'id': '06dbefaf-6fa9-4799-b74d-ce0bab531d0a',
+                        'memo': None,
+                        'merchant_id': None,
+                        'receiver': 'store.pcash',
+                        'sender': 'esaxv659ul',
+                        'status': 'ACCEPTED',
+                        'txn_type': 'PAYBACK'
+                    },
+                ]
             },
         },
     }
