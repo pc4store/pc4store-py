@@ -59,6 +59,17 @@ class BaseClient(ABC):
             "GET", rf"{self.base_url}/v1/order_info/{order_id}", None, load_obj
         )
 
+    def payback_order(self, order_id: str, amount: str) -> Union[str, Awaitable[str]]:
+        json_ = {"amount": amount}
+
+        def load_obj(data: str) -> Order:
+            resp = CreateTransferResponse.parse_raw(data)
+            return resp.payload.transfer_id
+
+        return self._request(
+            "GET", rf"{self.base_url}/v1/payback/{order_id}", json_, load_obj
+        )
+
     def create_transfer(
         self, input_: CreateTransferInput
     ) -> Union[str, Awaitable[str]]:

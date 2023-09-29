@@ -68,6 +68,7 @@ class CreateTransferInput(BaseModel):
     merchant_id: Optional[str] = None
     memo: Optional[str] = None
     fiat_method_id: Optional[str] = None
+    last_status_change: Optional[datetime]
 
 
 class CreateTransferPayload(BaseModel):
