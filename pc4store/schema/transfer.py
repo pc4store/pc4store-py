@@ -43,6 +43,7 @@ class Transfer(BaseModel):
     receiver: str
     txn_type: TxnType
     status: TransferStatus
+    last_status_change: Optional[datetime]
     memo: Optional[str] = None
     action: dict
 
@@ -69,7 +70,6 @@ class CreateTransferInput(BaseModel):
     merchant_id: Optional[str] = None
     memo: Optional[str] = None
     fiat_method_id: Optional[str] = None
-    last_status_change: Optional[datetime]
 
 
 class CreateTransferPayload(BaseModel):
