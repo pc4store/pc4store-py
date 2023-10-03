@@ -67,7 +67,7 @@ class BaseClient(ABC):
             return resp.payload.transfer_id
 
         return self._request(
-            "GET", rf"{self.base_url}/v1/payback/{order_id}", json_, load_obj
+            "POST", rf"{self.base_url}/v1/payback/{order_id}", json_, load_obj
         )
 
     def create_transfer(
