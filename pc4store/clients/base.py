@@ -62,7 +62,7 @@ class BaseClient(ABC):
     def payback_order(self, order_id: str, amount: str) -> Union[str, Awaitable[str]]:
         json_ = {"amount": amount}
 
-        def load_obj(data: str) -> Order:
+        def load_obj(data: str) -> str:
             resp = CreateTransferResponse.parse_raw(data)
             return resp.payload.transfer_id
 
@@ -103,14 +103,14 @@ class BaseClient(ABC):
     def get_currencies(self) -> Union[list[Currency], Awaitable[list[Currency]]]:
         def load_obj(data: str) -> list[Currency]:
             resp = CurrencyList.parse_raw(data)
-            return resp.__root__
+            return resp
 
         return self._request("GET", rf"{self.base_url}/v1/currencies", None, load_obj)
 
     def get_fiat_methods(self) -> Union[list[FiatMethod], Awaitable[list[FiatMethod]]]:
         def load_obj(data: str) -> list[FiatMethod]:
             resp = FiatMethodList.parse_raw(data)
-            return resp.__root__
+            return resp
 
         return self._request("GET", rf"{self.base_url}/v1/fiat_methods", None, load_obj)
 

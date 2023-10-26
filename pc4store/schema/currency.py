@@ -1,7 +1,7 @@
 from decimal import Decimal
 from typing import Optional, List
 
-from pydantic import BaseModel
+from pydantic import BaseModel, RootModel
 
 from .enums import Blockchain
 
@@ -31,5 +31,5 @@ class Currency(BaseModel):
     day_cap: Optional[Decimal] = None
 
 
-class CurrencyList(BaseModel):
-    __root__: List[Currency]
+class CurrencyList(RootModel):
+    root: List[Currency]
