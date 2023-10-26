@@ -9,7 +9,7 @@ M = TypeVar("M")
 
 class Pc4StoreClient(BaseClient):
     def _request(
-        self, method: str, path: str, json: Any, obj_loader: Callable[[str], M]
+            self, method: str, path: str, json: Any, obj_loader: Callable[[str], M]
     ) -> M:
         response = request(
             method, path, auth=(self.store_id, self.store_key), json=json

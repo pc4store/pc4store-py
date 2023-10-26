@@ -39,7 +39,7 @@ try:
     order: Order = client.create_order(CreateOrderInput(
         currency_name='USDCASH',
         currency_smart_contract='token.pcash',
-        amount_to_pay=Decimal(999),     # it can also be decimal-like string, float or integer
+        amount_to_pay=Decimal(999),  # it can also be decimal-like string, float or integer
         response_url='https://api.my-store/payment-callback/',
         expiration_time=30 * 60,  # 30 min
         merchant_order_id='12345',
@@ -50,19 +50,16 @@ try:
 except Pc4StoreError as err:
     print(err)
 else:
-    print(order.id)     # pc4store order id
+    print(order.id)  # pc4store order id
     print(order.payment_url)  # link to redirect user for payment
 
 ```
-
-
 
 ##### Get order info
 
 ```python
 from pc4store.clients import Pc4StoreClient
 from pc4store.schema import CreateOrderInput, Order, Pc4StoreError
-
 
 my_store_id = 'e40e58c5-2dd2-4c3b-994f-5af9c7ea255b'
 my_store_secret_key = 'b8c4d4c6-579a-41aa-b887-d390242ce339'
@@ -77,18 +74,16 @@ try:
 except Pc4StoreError as err:
     print(err)
 else:
-    print(order.id)     # pc4store order id
+    print(order.id)  # pc4store order id
     print(order.payment_url)  # link to redirect user for payment
 
 ```
-
 
 ##### Payback order
 
 ```python
 from pc4store.clients import Pc4StoreClient
 from pc4store.schema import Pc4StoreError
-
 
 my_store_id = 'e40e58c5-2dd2-4c3b-994f-5af9c7ea255b'
 my_store_secret_key = 'b8c4d4c6-579a-41aa-b887-d390242ce339'
@@ -104,11 +99,11 @@ try:
 except Pc4StoreError as err:
     print(err)
 else:
-    print(transfer_id)     # pc4store transfer id for payback transaction
+    print(transfer_id)  # pc4store transfer id for payback transaction
 ```
 
-
 ##### Create transfer
+
 ```python
 from pc4store.clients import Pc4StoreClient
 from pc4store.schema import CreateTransferInput, Pc4StoreError
@@ -132,7 +127,7 @@ try:
 except Pc4StoreError as err:
     print(err)
 else:
-    print(transfer_id)     # pc4store transfer id
+    print(transfer_id)  # pc4store transfer id
 ```
 
 ##### Get transfer info
@@ -140,7 +135,6 @@ else:
 ```python
 from pc4store.clients import Pc4StoreClient
 from pc4store.schema import Transfer, Pc4StoreError
-
 
 my_store_id = 'e40e58c5-2dd2-4c3b-994f-5af9c7ea255b'
 my_store_secret_key = 'b8c4d4c6-579a-41aa-b887-d390242ce339'
@@ -155,7 +149,7 @@ try:
 except Pc4StoreError as err:
     print(err)
 else:
-    print(transfer.id)     # pc4store transfer id
+    print(transfer.id)  # pc4store transfer id
     print(transfer.status)  # transfer status
 
 ```
@@ -172,7 +166,6 @@ else:
     # it could be cheating
     ...
 ```
-
 
 ### Async client
 
