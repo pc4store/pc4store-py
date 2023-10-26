@@ -2,6 +2,7 @@ from decimal import Decimal
 from typing import List
 
 from pydantic import BaseModel, RootModel
+
 from .enums import FiatMethodDirection, FiatMethodLocation
 
 
