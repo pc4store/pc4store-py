@@ -22,7 +22,7 @@ def test_get_fiat_methods():
         store_key=str(uuid4()),
     )
 
-    result = client.get_fiat_methods()
+    result = client.get_fiat_methods().root
     assert get_fiat_route.call_count == 1
 
     assert isinstance(result, list)
@@ -43,7 +43,7 @@ def test_get_currencies():
         store_key=str(uuid4()),
     )
 
-    result = client.get_currencies()
+    result = client.get_currencies().root
     assert get_currency_route.call_count == 1
 
     assert isinstance(result, list)
