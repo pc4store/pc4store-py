@@ -116,3 +116,4 @@ static_collected
 .sandbox
 .tests
 log.txt
+poetry.lock
