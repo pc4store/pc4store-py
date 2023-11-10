@@ -2,7 +2,7 @@ from datetime import datetime
 from decimal import Decimal
 from typing import Optional, List
 
-from pydantic import BaseModel, AnyUrl, AnyHttpUrl
+from pydantic import BaseModel
 
 from .enums import OrderStatus, PaymentMethod, ResponseStatus
 from .transfer import Amount, CurrencyInfo, Transfer
@@ -12,12 +12,12 @@ class CreateOrderInput(BaseModel):
     amount_to_pay: Decimal
     currency_name: str
     currency_smart_contract: str
-    response_url: AnyHttpUrl
+    response_url: str
     expiration_time: Optional[int] = None
     merchant_order_id: Optional[str] = None
     description: Optional[str] = None
-    success_payment_redirect_url: Optional[AnyUrl] = None
-    failed_payment_redirect_url: Optional[AnyUrl] = None
+    success_payment_redirect_url: Optional[str] = None
+    failed_payment_redirect_url: Optional[str] = None
     allowed_methods: Optional[List[PaymentMethod]] = None
 
 
