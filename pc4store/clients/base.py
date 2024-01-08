@@ -100,6 +100,15 @@ class BaseClient(ABC):
             "GET", rf"{self.base_url}/v1/transfer_info/{transfer_id}", None, load_obj
         )
 
+    def get_transfer_by_merchant_id(self, merchant_id: str) -> Union[Transfer, Awaitable[Transfer]]:
+        def load_obj(data: str) -> Transfer:
+            resp = TransferResponse.model_validate_json(data)
+            return resp.payload.transfer
+
+        return self._request(
+            "GET", rf"{self.base_url}/v1/transfer_info_by_merchant_id/{merchant_id}", None, load_obj
+        )
+
     def get_currencies(self) -> Union[list[Currency], Awaitable[list[Currency]]]:
         def load_obj(data: str) -> list[Currency]:
             resp = CurrencyList.model_validate_json(data)

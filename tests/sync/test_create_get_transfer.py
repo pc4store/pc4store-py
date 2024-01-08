@@ -111,3 +111,18 @@ def test_get_transfer_error():
 
     assert err.value.message == "Error message"
     assert err.value.error_type == "ErrorType"
+
+
+@respx.mock
+def test_get_transfer_by_merchant_id_success():
+    transfer_id = str(uuid4())
+    get_transfer_route = respx.get(
+        "https://api.pc4.store/v1/transfer_info_by_merchant_id/" + transfer_id
+    ).mock(return_value=Response(200, content=json.dumps(rand_transfer_response())))
+    client = Pc4StoreClient(
+        store_id=str(uuid4()),
+        store_key=str(uuid4()),
+    )
+    result = client.get_transfer_by_merchant_id(merchant_id=transfer_id)
+    assert get_transfer_route.call_count == 1
+    assert isinstance(result, Transfer)
