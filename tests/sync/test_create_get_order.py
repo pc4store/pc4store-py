@@ -82,14 +82,21 @@ def test_get_order_error():
     order_id = str(uuid4())
     get_order_route = respx.get("https://api.pc4.store/v1/order_info/" + order_id).mock(
         return_value=Response(
-            400, content=json.dumps({"status": "ERROR", "error": "Error message"})
+            400, content=json.dumps({
+                "status": "ERROR",
+                "error": "Error message",
+                "error_type": "ErrorType",
+            })
         )
     )
     client = Pc4StoreClient(
         store_id=str(uuid4()),
         store_key=str(uuid4()),
     )
-    with pytest.raises(Pc4StoreError):
-        result = client.get_order(order_id=order_id)
+    with pytest.raises(Pc4StoreError) as err:
+        client.get_order(order_id=order_id)
 
     assert get_order_route.call_count == 1
+
+    assert err.value.message == "Error message"
+    assert err.value.error_type == "ErrorType"
