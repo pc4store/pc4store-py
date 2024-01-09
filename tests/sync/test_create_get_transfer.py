@@ -58,7 +58,7 @@ def test_create_transfer_error():
     )
 
     with pytest.raises(Pc4StoreError):
-        result = client.create_transfer(
+        client.create_transfer(
             CreateTransferInput(
                 amount=Decimal("25.5"),
                 currency_name="USDT",

@@ -62,10 +62,11 @@ class ValidateTransferResponse(BaseModel):
 
 
 class CreateTransferInput(BaseModel):
-    amount: Decimal
     currency_name: str
     currency_smart_contract: str
     eos_account: str
+    amount: Decimal | None = None
+    amount_to_receive: Decimal | None = None
     response_url: Optional[str] = None
     merchant_id: Optional[str] = None
     memo: Optional[str] = None

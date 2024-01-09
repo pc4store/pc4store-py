@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pc4store"
-version = "3.1.4"
+version = "3.1.5"
 description = "Python lib for integration with pc4store payment system"
 authors = []
 license = "MIT"
