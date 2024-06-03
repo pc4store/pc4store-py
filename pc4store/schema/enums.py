@@ -43,6 +43,7 @@ class OrderStatus(Enum):
     PAID = "PAID"
     CANCELLED = "CANCELLED"
     EXPIRED = "EXPIRED"
+    FROZEN = "FROZEN"
 
 
 class TransferStatus(Enum):
