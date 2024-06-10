@@ -35,6 +35,7 @@ class TxnType(Enum):
     PAYBACK = "PAYBACK"
     DEPOSIT = "DEPOSIT"
     WITHDRAW = "WITHDRAW"
+    CONVERSION = "CONVERSION"
 
 
 class OrderStatus(Enum):
